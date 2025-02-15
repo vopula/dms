@@ -1,0 +1,845 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: var(--font-family);
+  background-color: #f8f8f8;
+  overflow: hidden;
+  scroll-snap-type: y mandatory;
+}
+
+:root {
+  --primary-color: #5E6B7F;
+  --secondary-color: #8DA1BF;
+  --accent-color: #ffcc00;
+  --background-light: #f3f4f6;
+  --text-color: #333;
+  --text-muted: #555;
+  --font-family: 'Arial', sans-serif;
+}
+
+.scroll-container {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.scroll-item {
+  height: 100vh;
+  scroll-snap-align: start;
+  padding-top: 60px;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(51, 51, 51, 1); /* Opaque by default */
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .navbar.transparent {
+    background-color: rgba(51, 51, 51, 0.5); /* 50% transparency */
+  }
+
+  .navbar .logo img {
+    height: 40px;
+  }  
+
+  .navbar .menu {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar .menu li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navbar .menu li a:hover {
+    color: var(--accent-color);
+  }
+  
+  .navbar .btn-konsultasi {
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    border: none;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .navbar .btn-konsultasi:hover {
+    background-color: #e6b800;
+  }
+
+  #navbar-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  @media (max-width: 768px) {
+    .second-page {
+      height: auto; 
+      padding: 20px;
+    }
+  
+    .advantages-container {
+      display: grid;
+      grid-template-columns: 1fr; 
+      gap: 15px;
+      width: 100%; 
+      padding: 10px;
+      box-sizing: border-box;
+    }
+  
+    .advantage-box {
+      width: 100%; 
+      padding: 15px; 
+      margin: 0; 
+    }
+  }  
+  
+  .page {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    color: white;
+    text-align: center;
+  }
+  
+  .background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+  }  
+  
+  .content {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    color: white;
+    margin-top: 100px;
+    max-width: 30%;
+  }
+  
+  .content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards;
+  }
+  
+  .content p {
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards;
+    animation-delay: 1s;
+  }
+
+  .text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+  }
+  
+  .second-page {
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow: hidden;
+  }
+
+  .second-page .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  .advantages-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .text-content {
+    text-align: center;
+    margin-bottom: 20px; 
+    color: #555;
+  }
+
+  .advantage-box {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    height: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    text-align: center; 
+  }  
+  
+  .advantage-box:hover {
+    transform: scale(1.05);
+  }
+
+  .advantage-box img {
+    width: 100%; 
+    height: auto; 
+    border-radius: 8px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .advantage-box img:hover {
+    transform: scale(1.05); 
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .content h1, .content p {
+    opacity: 0; 
+    animation: fadeIn 1.5s ease-out forwards;
+  }
+  
+  .content h1 {
+    animation-delay: 0.5s; 
+  }
+  
+  .content p {
+    animation-delay: 1s;
+  }
+
+  .tabs-header {
+    text-align: center;
+    margin-bottom: 20px; /* Memberikan jarak antara header dan tab */
+    padding-top: 20px;
+}
+
+  .tabs-title {
+      font-size: 32px; /* Ukuran font untuk judul */
+      font-weight: bold;
+      color: black; /* Warna hitam untuk teks */
+      margin: 0;
+  }
+
+  .tabs-description {
+    font-size: 18px; /* Ukuran font untuk deskripsi */
+    color: black; /* Warna hitam */
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+  
+  .tabs-section {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    color: white;
+  }
+  
+  .tabs {
+    display: flex;
+  }
+  
+  .tab-button {
+    cursor: pointer;
+    width: 199px;
+    text-align: center;
+    background-color: #5E6B7F;
+    color: white;
+    padding: 10px;
+    border-radius: 12px 12px 0 0;
+    transition: .25s ease;
+    border: none;
+    flex-grow: 1;
+    position: relative;
+  }
+  
+  .tab-button p {
+    display: none; /* Sembunyikan penjelasan secara default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #8DA1BF;
+    padding: 10px;
+    font-size: 1em;
+    margin-top: 10px;
+    border-radius: 0 0 12px 12px;
+  }
+  
+  .tab-button:focus,
+  .tab-button:hover,
+  input[type="radio"]:checked + .tab-button {
+    background-color: #8DA1BF;
+  }
+  
+  .tab-button:focus p,
+  input[type="radio"]:checked + .tab-button p {
+    display: block; /* Tampilkan penjelasan saat fokus atau tab aktif */
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  .tab-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .tab-content .tab-pane {
+    display: none;
+    background-color: #8DA1BF;
+    text-align: center;
+    height: calc(80vh - 60px);
+    font-size: 2em;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  #tab1:checked ~ .tab-content #content1 {
+    display: block;
+  }
+  
+  #tab2:checked ~ .tab-content #content2 {
+    display: block;
+  }
+  
+  #tab3:checked ~ .tab-content #content3 {
+    display: block;
+  }
+  
+  .p {
+    margin-top: 300px;
+    text-align: center;
+    display: block;
+    font-size: 1em;
+  }
+
+  .page-4 {
+    padding-top: 65px;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  
+  .public-trust h1 {
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0.7em;
+  }
+  
+  .public-trust p {
+    font-size: 1.2em;
+    color: #555;
+    text-align: center;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 1.5em auto;
+  }
+  
+  .logo-sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Membagi dalam 3 kolom */
+    grid-gap: 1em; /* Jarak antar kotak */
+    width: 100%;
+    max-width: 1000px;
+  }
+  
+  .logo-item {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box;
+    justify-content: center;
+    height: 130px;
+  }
+  
+  .logo-img {
+    width: 60%;
+    height: auto;
+    margin-bottom: 1em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .logo-item p {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .page5-container {
+    display: flex;
+    gap: 0px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  
+  .box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: calc(25% - 20px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .box.article {
+    flex: 1 1 calc(20% - 5px);  /* Menyesuaikan ukuran kotak agar lebih rapat */
+    max-width: calc(20% - 5px);
+    margin: 10px;
+    box-sizing: border-box;
+    padding: 0;
+  }
+  
+  /* Announcement Box Styles */
+  .announcement {
+    width: 20%;
+    box-sizing: border-box;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
+  .article-info {
+    margin-top: 12px;
+    padding: 8px;
+    background-color: #f1f1f1;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 0px;
+    box-sizing: border-box;
+  }
+  
+  .article-author,
+  .article-date {
+    font-weight: normal;
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  .article-title, .article-category, .article-button, .article-description {
+    padding: 0px 10px;
+  }
+  
+  .pagination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  .announcement-label {
+    font-size: 17px;
+    font-weight: bold;
+    color: #007BFF;
+  }
+  
+  .nav-button {
+    padding: 5px 8px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .read-more-btn {
+    padding: 6px 6px;  /* Memperbesar padding tombol Read More */
+    font-size: 16px;  /* Memperbesar ukuran font tombol Read More */
+    width: 150px;
+  }
+  
+  .page-heading {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  
+  .page-paragraph {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  
+  .page-paragraph:last-of-type {
+    margin-bottom: 24px;
+  }
+  
+  /* Article Box Styles */
+  .article-label {
+    background-color: #FF4500;
+    color: white;
+    padding: 4px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  
+  .article-description {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .article-image {
+    width: 40%;
+    height: auto;
+    max-height: 150px;
+    border-radius: 8px;
+    margin: 0 auto 10px;
+  }
+  
+  .article-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    color: #333;
+  }
+  
+  .article-category {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .article-button {
+    margin: 0px 16px;
+    padding: 8px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+  } 
+  
+  .article-button:hover {
+    background-color: #0056b3;
+  }
+
+/* Grid Container */
+.grid-container {
+  display: grid;
+  grid-template-rows: 1fr auto; /* Baris pertama untuk contact-container, baris kedua untuk footer */
+}
+
+/* Contact Container */
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Membagi menjadi 2 kolom untuk left-section dan right-section */
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto; /* Pusatkan contact-container */
+  width: 100%;
+  align-items: stretch; /* Pastikan kedua section memiliki tinggi yang sama */
+}
+
+/* Left Section */
+.contact-container .left-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  height: 60vh;
+  overflow: hidden;
+}
+
+.contact-container .left-section-link {
+  display: block;
+  text-decoration: none; 
+  color: inherit; 
+  width: 100%; 
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-container .left-section:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.contact-container .sticker {
+  margin-bottom: 20px;
+}
+
+.contact-container .phone-sticker {
+  width: 50px;
+}
+
+.contact-container h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.contact-container .description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.contact-container .phone-number {
+  font-size: 18px;
+  color: #333;
+}
+
+/* Right Section */
+.contact-container .right-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 60vh;
+}
+
+.contact-container .form-header {
+  background-color: #007BFF;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.contact-container .form-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.contact-container .form-header p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.contact-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-container label {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.contact-container input,
+.contact-container textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-container button {
+  padding: 10px;
+  background-color: #25D366;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.contact-container button:hover {
+  background-color: #128C7E;
+}
+
+/* Footer */
+#custom-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px; /* Padding diatur ulang */
+  background-color: #222;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  align-items: stretch;
+  min-height: 100px; /* Tinggi footer disesuaikan */
+  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+  width: 100%; /* Footer mengambil lebar penuh */
+  position: relative; /* Pastikan footer tidak tumpang tindih */
+  z-index: 10; /* Footer selalu di atas elemen lain */
+}
+
+#custom-footer .footer-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0;
+  padding-left: 20px; /* Padding kiri disesuaikan */
+}
+
+#custom-footer .footer-logo {
+  width: 80px; /* Ukuran logo disesuaikan */
+  margin-bottom: 10px; /* Margin bawah logo disesuaikan */
+  margin-top: 10px; /* Margin atas logo disesuaikan */
+}
+
+#custom-footer .footer-group {
+  display: flex;
+  gap: 30px; /* Jarak antar bagian disesuaikan */
+  padding-right: 20px; /* Padding kanan disesuaikan */
+  align-items: flex-start;
+}
+
+#custom-footer h3 {
+  margin-bottom: 10px; /* Margin bawah heading disesuaikan */
+  color: #f0a500;
+}
+
+#custom-footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+#custom-footer ul li {
+  margin-bottom: 3px; /* Margin bawah list item disesuaikan */
+}
+
+#custom-footer ul li a {
+  text-decoration: none;
+  color: #bbb;
+  transition: color 0.3s;
+}
+
+#custom-footer ul li a:hover {
+  color: #f0a500;
+}
+
+  /* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .box {
+    width: calc(33.33% - 20px); /* 3 kotak per baris untuk layar lebih kecil */
+  }
+
+  .box.article {
+    max-width: calc(33.33% - 5px);
+  }
+}
+
+@media (max-width: 768px) {
+  .box {
+    width: 100%; /* Menampilkan satu artikel per baris pada layar kecil (tablet) */
+  }
+
+  .box.article {
+    max-width: 100%; /* Mengatur agar artikel hanya menempati satu baris */
+  }
+
+  .announcement {
+    width: 100%; /* Mengatur announcement agar menempati seluruh lebar layar */
+  }
+
+  .article-image {
+    width: 80%; /* Gambar menjadi lebih besar pada layar kecil */
+  }
+
+  .pagination-header {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .box {
+    width: calc(100% - 20px); /* 1 kotak per baris untuk layar kecil */
+  }
+
+  .box.article {
+    max-width: 100%;
+  }
+
+  .article-image {
+    width: 80%; /* Gambar semakin besar pada layar kecil */
+  }
+
+  .read-more-btn {
+    width: 100%; /* Tombol 'Read More' memenuhi lebar layar */
+  }
+}

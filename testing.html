@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="testing.css" />
+  <title>Snap Scroll with Transparent Navbar</title>
+</head>
+<body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const navbar = document.querySelector(".navbar");
+  const sections = document.querySelectorAll(".section");
+
+  window.addEventListener("scroll", function () {
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+
+      if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+        if (section.id !== "section1") {
+          // Jika tidak di section 1, jadikan navbar transparent
+          navbar.classList.add("transparent");
+        } else {
+          // Jika di section 1, pastikan navbar solid
+          navbar.classList.remove("transparent");
+        }
+      }
+    });
+  });
+});
+  </script>
+
+  <header class="navbar">
+    <h1>My Navbar</h1>
+  </header>
+
+  <section id="section1" class="section">
+    <h2>Page 1</h2>
+    <p>Welcome to Page 1</p>
+  </section>
+
+  <section id="section2" class="section">
+    <h2>Page 2</h2>
+    <p>Welcome to Page 2</p>
+  </section>
+
+  <section id="section3" class="section">
+    <h2>Page 3</h2>
+    <p>Welcome to Page 3</p>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
