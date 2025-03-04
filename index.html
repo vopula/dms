@@ -9,20 +9,71 @@
 <body>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const navbar = document.querySelector('.navbar');
-      const firstPage = document.querySelector('#home');
-      const firstPageHeight = firstPage.offsetHeight;
-  
-      window.addEventListener('scroll', function () {
-        // Check if the scroll position is past the first page
-        if (window.scrollY > firstPageHeight) {
-          navbar.classList.add('transparent');
-        } else {
-          navbar.classList.remove('transparent');
-        }
-      });
+    document.addEventListener("DOMContentLoaded", function () {
+      // Cache DOM elements once
+      const menuToggle = document.querySelector(".menu-toggle");
+      const menu = document.querySelector(".menu");
+      const navbar = document.querySelector(".navbar");
+      const konsultasiBtn = document.querySelector(".btn-konsultasi");
+      const sections = document.querySelectorAll(".scroll-item");
+      const navLinks = document.querySelectorAll(".menu li a");
+
+      // Menu toggle event
+      menuToggle.addEventListener("click", () => menu.classList.toggle("open"));
+
+      // Intersection Observer for navbar transparency and active link highlight
+      const observerOptions = { root: null, threshold: 0.5 };
+      
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const isHome = entry.target.id === "home";
+            
+            navbar.classList.toggle("transparent", !isHome);
+            konsultasiBtn.classList.toggle("transparent", !isHome);
+
+            // Update active nav link
+            navLinks.forEach((link) => link.classList.remove("active"));
+            const activeLink = document.querySelector(`.menu li a[href="#${entry.target.id}"]`);
+            if (activeLink) activeLink.classList.add("active");
+          }
+        });
+      }, observerOptions);
+
+      // Observe sections
+      sections.forEach((section) => sectionObserver.observe(section));
     });
+
+    // WhatsApp form submission
+    function sendToWhatsApp(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const layanan = document.getElementById("layanan").value.trim();
+
+      if (!name || !email || !layanan) {
+        alert("Harap isi semua bidang!");
+        return;
+      }
+
+      const whatsappMessage = 
+        `Halo min, apakah saya bisa dibantu dengan layanan ${encodeURIComponent(layanan)}!%0A%0ANama: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0A`;
+      
+      window.open(`https://wa.me/+6281270858355?text=${whatsappMessage}`, "_blank");
+    }
+
+    // Tab activation
+    function activateTab(event, tabId) {
+      event.preventDefault();
+      const tab = document.getElementById(tabId);
+      if (!tab) return;
+
+      tab.checked = true;
+      document.getElementById("service").scrollIntoView({ behavior: "smooth" });
+      history.pushState(null, null, "#service");
+      document.querySelector(`label[for="${tabId}"]`).focus();
+    }
+
   </script>
 
   <div class="scroll-container">
@@ -32,21 +83,22 @@
         <img src="logo.png" alt="Logo">
       </div>
       <ul class="menu">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#profile">Profile</a></li>
-        <li><a href="#service">Service</a></li>
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#profile">Komitmen</a></li>
+        <li><a href="#service">Layanan</a></li>
         <li><a href="#testimoni">Testimoni</a></li>
-        <li><a href="#artikel">Article</a></li>
+        <li><a href="#artikel">Artikel</a></li>
         <li><a href="#kontak">Kontak</a></li>
       </ul>
-      <button class="btn-konsultasi">Konsultasikan</button>
+      <button class="btn-konsultasi">Konsultasi</button>
+      <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>
     </nav>
 
     <section class="page scroll-item" id="home">
-      <!-- <video autoplay loop muted playsinline class="background-video">
+      <video autoplay loop muted playsinline class="background-video">
         <source src="video.mp4" type="video/mp4">
         Your browser does not support the video tag.
-      </video> -->
+      </video>
       <div class="overlay"></div>
       <div class="content text-wrapper">
         <h1>Cegah Kerugian Akibat Hama</h1>
@@ -54,27 +106,23 @@
       </div>
     </section>
 
-    <section class="page second-page scroll-item" id="profile">
-      <div class="content">
+    <section class="second-page scroll-item" id="profile">
+      <div class="content2">
         <div class="text-content">
-          <h2>Halaman Berikutnya</h2>
-          <p>Berikan informasi keunggulan layanan perusahaan kami.</p>
+          <h1>Pilihan tepat dimulai dari Pelayanan yang terbukti</h1>
         </div>
         <div class="advantages-container">
           <div class="advantage-box">
             <!-- <img src="freesurveiimage2.png" alt="Keunggulan 1 - Solusi pengendalian hama" /> -->
-            <p>Solusi pengendalian hama yang dapat disesuaikan dengan kebutuhan anda</p>
-          </div>
-          <div class="advantage-box">
-            <h3>Keunggulan 2</h3>
             <p>Survei gratis untuk konsultasi pada rumah anda</p>
           </div>
           <div class="advantage-box">
-            <h3>Keunggulan 3</h3>
-            <p>Pelayanan yang profesional dan berkualitas tinggi</p>
+            <p>Layanan dapat disesuaikan dengan kebutuhan anda</p>
           </div>
           <div class="advantage-box">
-            <h3>Keunggulan 4</h3>
+            <p>Profesional dan berkualitas tinggi</p>
+          </div>
+          <div class="advantage-box">
             <p>Tenaga ahli yang kompeten dalam bekerja</p>
           </div>
         </div>
@@ -84,105 +132,188 @@
     <section class="tabs-section scroll-item" id="service">
 
       <div class="tabs-header">
-        <h1 class="tabs-title">Judul Utama</h1>
-        <p class="tabs-description">Deskripsi singkat untuk halaman ini</p>
+        <h1 class="tabs-title">Layanan yang kami sediakan <br> untuk memenuhi kebutuhan anda</h1>
+        <p class="tabs-description"></p>
       </div>
   
       <input type="radio" id="tab1" name="tab" checked>
       <input type="radio" id="tab2" name="tab">
       <input type="radio" id="tab3" name="tab">
+      <input type="radio" id="tab4" name="tab">
       
       <div class="tabs">
         <label for="tab1" class="tab-button" tabindex="0" aria-label="Tab 1">
-          Tab 1
+          Fumigasi
         </label>
         <label for="tab2" class="tab-button" tabindex="0" aria-label="Tab 2">
-          Tab 2
+          Pengendalian hama
         </label>
         <label for="tab3" class="tab-button" tabindex="0" aria-label="Tab 3">
-          Tab 3
+          Pengendalian Rayap
+        </label>
+        <label for="tab4" class="tab-button" tabindex="0" aria-label="Tab 4">
+          Disinfeksi
         </label>
       </div>
       
       <div class="tab-content">
         <div class="tab-pane" id="content1">
-          <p>Tab Content #1</p>
+          <div class="grid-container-service">
+            <div class="tab-left-section">
+              <img src="fumigasi_kontainer_photo.jpg">
+            </div>
+            <div class="tab-right-section">
+              <p class="tab-right-title">Fumigasi Kontainer Penuh</p>
+              <p  class="tab-right-description">Metode fumigasi kontainer terisi penuh merupakan metode penyaluran pada kontainer yang berisi produk ekspor dalam jangka waktu tertentu. Gas ditahan sehingga efeknya lebih baik sebelum ventilasi dibuka. Terakhir, pintu kontainer akan ditutup rapat dan hanya dibuka setelah proses kirim selesai.</p>
+            </div>
+            <div class="tab-left-section">
+              <img src="logo.png">
+            </div>
+            <div class="tab-right-section tab-right-side-section">
+              <p class="tab-right-title">Fumigasi Kontainer Sebagian</p>
+              <p class="tab-right-description">Fumigasi kontainer terisi sebagaian dilakukan pada kontainer yang jumlah produk-nya tidak memenuhi kontainer. Sehingga, fumigasi dilakukan pada kargo yang diletakkan terpisah dari yang lain. Gas fumigasi tersebut dipertahankan hingga ventilasi dibuka.</p>
+            </div>
+          
+            <div class="tab-left-section">
+              <img src="fumigasi_kapal_photo.jpg">
+            </div>
+            <div class="tab-right-section">
+              <p class="tab-right-title">Fumigasi Kapal</p>
+              <p  class="tab-right-description">Fumigasi kapal merujuk pada tindakan pengasapan di kapal. Kegiatan fumigasi di kapal diperlukan untuk media pembawa impor atau pemenuhan syarat ekspor ke berbagai negara. Agar efektif, dibutuhkan informasi standar perlakuan palka. Pada kapal transit, fumigasi dapat dilaksanakan jika terdapat kepastian penjaminan kegiatan fumigasi akan dilaksanakan.</p>
+            </div>
+            <div class="tab-left-section">
+              <img src="fumigasi_komoditas_photo.jpg">
+            </div>
+            <div class="tab-right-section  tab-right-side-section">
+              <p class="tab-right-title">Fumigasi Komoditas</p>
+              <p  class="tab-right-description">Fumigasi komoditas adalah pemberian gas fumigan pada gudang penyimpanan dengan periode tertentu untuk menjaga kualitas dan mengurangi resiko kerusakan akibat hama perusak dari komoditas berkualitas rendah yang dapat bersarang pada komoditas lain. Perawatan tipe fumigasi ini dilakukan secara berkala untuk melindungi komoditas.</p>
+            </div>
+  
+            <div class="tab-left-section">
+              <img src="logo.png">
+            </div>
+            <div class="tab-right-section">
+              <p class="tab-right-title">Fumigasi Lumbung</p>
+              <p  class="tab-right-description">Fumigasi lumbung merupakan metode yang digunakan untuk menjaga produk biji-bijian yang terimpan pada lumbung. Fumigasi ini dilakukan untuk pemenuhan syarat yang berlaku sebelum produk tersebut dapat digunakan dan menjadi pilihan dalam menghemat waktu dan biaya karena metode dilakukan pada jumlah yang besar.</p>
+            </div>
+          </div>
         </div>
         <div class="tab-pane" id="content2">
-          <p>Content for Tab #2</p>
+          <div class="grid-container-service">
+            <div class="tab-left-section">
+              <img src="logo.png">
+            </div>
+            <div class="tab-right-section">
+              <p class="tab-right-title">Pra-konstruksi (Garansi 5 tahun)</p>
+              <p  class="tab-right-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor</p>
+            </div>
+          </div>
         </div>
         <div class="tab-pane" id="content3">
-          <p>#3 Tab Content</p>
+          <div class="grid-container-service">
+            <div class="tab-left-section">
+              <img src="pra_construction_photo.jpg">
+            </div>
+            <div class="tab-right-section">
+              <p class="tab-right-title">Pra-konstruksi (Garansi 5 tahun)</p>
+              <p  class="tab-right-description">Pra-konstruksi merupakan upaya perlindungan terhadap bangunan yang konstruksinya belum sepenuhnya selesai. Perlindungan pra-konstruksi ini meliputi dasar pondasi, sisi pondasi, tanah urugan, seluruh permukaan lantai yang belum dikeraskan. Selain itu, perlindungan juga dilakukan pada seluruh kayu rangka plafon, atap, dan kusen sebelum dan sesudah distel. Pada bangunan bertingkat, perlindungan akan disesuaikan dengan kondisi permukaan air tanah.</p>
+            </div>
+            <div class="tab-left-section">
+              <img src="pasca_construction_photo.jpg">
+            </div>
+            <div class="tab-right-section tab-right-side-section">
+              <p class="tab-right-title">Pasca-konstruksi (Garansi 3 tahun)</p>
+              <p class="tab-right-description">Pasca-konstruksi adalah tindakan untuk menjaga maupun merawat bangunan setelah konstruksi selesai. Tindakan pasca-konsturksi ini meliputi pengeboran lubang di sepanjang sisi pondasi dengan jarak 40-60 cm dan kedalaman sekitar 40 cm. Setiap lubang kemudian diinjeksikan dengan termitisida untuk membentuk rintangan kimia yang efektif. Setelah injeksi, lubang ditutup kembali agar lantai rapi. Selain itu, bila komponen kamu maka penyemperotan dilakukan secara menyeluruh.</p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="content4">
+          <div class="grid-container-service">
+            <div class="tab-left-section">
+              <img src="disinfeksi_photo.jpg">
+            </div>
+            <div class="tab-right-section">
+              <p class="tab-right-title">Disinfeksi</p>
+              <p  class="tab-right-description">Disinfeksi adalah proses pembunuhan patogen penyebab penyakit seperti virus dan bakteri di lingkungan sekitar kita sehingga patogen tidak menular ke orang sehat. Proses ini melibatkan bahan kimia yang sering disebut sebagai disinfektan. Disinfeksi menggunakan disinfektan ini tidak memiliki daya penetrasi sehingga tidak mampu membunuh pateogen di dalam celah atau cemaran mineral.</p>
+            </div>
+            <div class="tab-left-section">
+            </div>
+            <div class="tab-right-section tab-right-side-section">
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="page-4 scroll-item" id="testimoni">
       <div class="public-trust">
-        <h1>Kepercayaan Publik</h1>
-        <p>Kepercayaan publik adalah kunci utama dalam membangun hubungan yang baik antara organisasi dan masyarakat. Organisasi yang dapat memperoleh dan menjaga kepercayaan publik akan memiliki fondasi yang kuat dalam menjalankan operasionalnya.</p>
+        <h1>Dipercaya oleh seluruh industri</h1>
+        <p>Kami telah membangun kepercayaan dengan berbagai brand di semua industri, membuktikan komitmen kami terhadap kualitas Layanan dan kepuasan pelanggan. Dengan dukungan dari berbagai brand, kami siap memberikan hasil terbaik dengan solusi yang dapat diandalkan</p>
       </div>
     
       <div class="logo-sections">
         <div class="logo-item">
-          <img src="logo1.png" alt="Logo 1" class="logo-img">
-          <p>Deskripsi logo 1.</p>
+          <img src="de_heus_logo.png" alt="De heus logo" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo2.png" alt="Logo 2" class="logo-img">
-          <p>Deskripsi logo 2.</p>
+          <img src="abipraya_logo.png" alt="Logo 2" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo3.png" alt="Logo 3" class="logo-img">
-          <p>Deskripsi logo 3.</p>
+          <img src="taco_logo.png" alt="Logo 3" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo4.png" alt="Logo 4" class="logo-img">
-          <p>Deskripsi logo 4.</p>
+          <img src="chaeron_logo.png" alt="Logo 4" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo5.png" alt="Logo 5" class="logo-img">
-          <p>Deskripsi logo 5.</p>
+          <img src="japfa_logo.png" alt="Logo 5" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo6.png" alt="Logo 6" class="logo-img">
-          <p>Deskripsi logo 6.</p>
+          <img src="janji_jiwa_logo.png" alt="Logo 6" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo7.png" alt="Logo 7" class="logo-img">
-          <p>Deskripsi logo 7.</p>
+          <img src="snapy_logo.png" alt="Logo 7" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo8.png" alt="Logo 8" class="logo-img">
-          <p>Deskripsi logo 8.</p>
+          <img src="daesang_logo.png" alt="Logo 8" class="logo-img">
         </div>
         <div class="logo-item">
-          <img src="logo9.png" alt="Logo 9" class="logo-img">
-          <p>Deskripsi logo 9.</p>
+          <img src="ipc_logo.png" alt="Logo 9" class="logo-img">
         </div>
       </div>
     </section>
 
     <section class="page5-container scroll-item" id="artikel">
+      <div>
       <!-- Announcement Box -->
       <div class="box announcement">
         <div class="pagination-header">
-          <span class="announcement-label">Announcement</span>
+          <span class="announcement-label">Artikel</span>
           <div class="pagination-buttons">
             <button class="nav-button"><</button>
-            <span>1 / 3</span>
+            <span>1 / 1</span>
             <button class="nav-button">></button>
           </div>
         </div>
-        <h2 class="page-heading">Welcome to the Schiller-Stroman Resource Center</h2>
-        <p class="page-paragraph">We are so happy you are here! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p class="page-paragraph">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button class="nav-button read-more-btn">Read More</button>
+        <div>
+          <h2 class="page-heading">Selamat datang di artikel Digdaya Maju Perkasa</h2>
+          <p class="page-paragraph">Artikel-artikel ini membahas informasi lengkap mengenai pengendalian hama melalui tips yang dapat langsung diterapkan</p>
+          <p class="page-paragraph">Temukan wawasan yang bisa memperluas pemahaman anda tentang pengendalian hama dengan informasi yang relevan dan terbaru</p>
+        </div>
+        <button class="nav-button read-more-btn"><a href="#artikel">Baca Selengkapnya</a></button>
       </div>
   
       <!-- Article Box 1 -->
+      <div class="nav-text-section">
+        <button class="nav-button nav-prev"><</button>
+        <p class="nav-text">Explore our article</p>
+        <button class="nav-button nav-next">></button>
+      </div>
+
       <div class="box article">
-        <img src="freesurveiimage.png" alt="Article Image" class="article-image">
+        <div class="article-container">
+          <div class="article-label">New</div>
+          <img src="Sosialisasi Renstra.png" alt="Article Image" class="article-image">
+        </div>         
         <h3 class="article-title">Compliance Document for Multi-Channeled Firmware</h3>
         <p class="article-category">Category: Article</p>
         <p class="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
@@ -196,17 +327,19 @@
             <div><strong>Update:</strong></div>
             <div class="article-date">12 Februari 2025</div>
           </div>
-        </div>      
+        </div>
       </div>
   
       <!-- Article Box 2 -->
       <div class="box article">
-        <!-- <div class="article-label">New</div> -->
-        <img src="freesurveiimage.png" alt="Article Image" class="article-image">
+        <div class="article-container">
+          <div class="article-label">New</div>
+          <img src="Sosialisasi Renstra.png" alt="Article Image" class="article-image">
+        </div>        
         <h3 class="article-title">Inverse Solution-Oriented Installation Documentation</h3>
         <p class="article-category">Category: Article</p>
         <p class="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-        <button class="article-button">Visit Link</button>
+        <button class="article-button">Visit Link</button> 
         <div class="article-info">
           <div class="info-section">
             <div><strong>Ditulis oleh: </strong></div>
@@ -216,13 +349,13 @@
             <div><strong>Update:</strong></div>
             <div class="article-date">12 Februari 2025</div>
           </div>
-        </div>  
+        </div> 
       </div>
   
       <!-- Article Box 3 -->
       <div class="box article">
-        <!-- <div class="article-label">New</div> -->
-        <img src="freesurveiimage.png" alt="Article Image" class="article-image">
+        <div class="article-label">New</div>
+        <img src="Sosialisasi Renstra.png" alt="Article Image" class="article-image">
         <h3 class="article-title">Multi-Layered System-Worthy Pricing Structure</h3>
         <p class="article-category">Category: Article</p>
         <p class="article-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
@@ -236,76 +369,81 @@
             <div><strong>Update:</strong></div>
             <div class="article-date">12 Februari 2025</div>
           </div>
-        </div>  
+        </div> 
       </div>
+    </div>
     </section>
 
     <div class="grid-container scroll-item" id="kontak">
-      <!-- Baris Pertama: Contact Container -->
       <div class="contact-container">
-        <!-- Left Section -->
         <div class="left-section">
-          <a href="https://wa.me/1234567890?text=Hello, I would like to know more!" class="left-section-link">
+          <a href="https://wa.me/+6281270858355?text=Halo min, apakah saya bisa mendapat informasi lebih lanjut?" class="left-section-link">
             <div class="sticker">
               <img src="telephone.jpg" alt="Phone Sticker" class="phone-sticker">
             </div>
-            <h2>Talk to Sales</h2>
-            <p class="description">Reach out to our sales team for inquiries, pricing, and more!</p>
-            <div class="phone-number">
-              <p>Call us at:</p>
-              <p><strong>+123 456 7890</strong></p>
-            </div>
+            <h2>Hubungi Kami dan Dapatkan <br> penawaran spesial</h2>
+            <p class="description">Tim kami siap membantu dengan berbagai kebutuhan anda. Kami percaya bahwa komunikasi yang baik merupakan kunci untuk membangun hubungan kuat. Jangan ragu untuk menghubungi kami</p>
           </a>
         </div>
   
-        <!-- Right Section -->
         <div class="right-section">
           <div class="form-header">
-            <h2>Ada yang ingin kamu tanyakan?</h2>
-            <p>Yuk, isi formulir di bawah ini</p>
+            <h2>Tertarik dengan layanan kami?</h2>
+            <p>Isi formulir di bawah ini</p>
           </div>
-          <form action="https://wa.me/1234567890?text=Hello, I would like to know more!" method="get" target="_blank">
+          <form id="whatsappForm" onsubmit="sendToWhatsApp(event)">
             <label for="name">Nama:</label>
             <input type="text" id="name" name="name" required>
+          
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-            <label for="message">Pesan</label>
-            <textarea id="message" name="message" required></textarea>
+          
+            <label for="layanan">Layanan:</label>
+            <select id="layanan" name="layanan" required>
+              <option value="" disabled selected></option>
+              <option value="Kontainer">Kontainer</option>
+              <option value="Kapal">Kapal</option>
+              <option value="Komoditas">Komoditas</option>
+              <option value="Lumbung">Lumbung</option>
+              <option value="Rumah">Rumah</option>
+            </select>
+
             <button type="submit">Kirim Pesan</button>
           </form>
         </div>
       </div>
   
-      <!-- Baris Kedua: Footer -->
       <footer id="custom-footer">
         <div class="footer-section">
-          <img src="logo.png" alt="Logo" class="footer-logo">
-          <p class="company-name">Nama Perusahaan</p>
-          <p>Lokasi: <a href="#">Lihat di Maps</a></p>
+          <div class="logo-and-name">
+            <img src="logo.png" alt="Logo" class="footer-logo">
+            <p class="company-name">Digdaya Maju Perkasa</p>
+          </div>          
+          <p>Lokasi: <a href="#">(Lihat di Maps)</a></p>
         </div>
         <div class="footer-group">
-          <div class="footer-section">
+          <div class="footer-section display-none-550px">
             <h3>Perusahaan</h3>
             <ul>
-              <li><a href="#">Tentang Kami</a></li>
-              <li><a href="#">Benefit</a></li>
+              <!-- <li><a href="#">Tentang Kami</a></li> -->
+              <li><a href="#profile">Komitmen kami</a></li>
             </ul>
           </div>
           <div class="footer-section">
             <h3>Layanan</h3>
             <ul>
-              <li><a href="#">Kontainer</a></li>
-              <li><a href="#">Kapal</a></li>
-              <li><a href="#">Komoditas</a></li>
-              <li><a href="#">Lumbung</a></li>
-              <li><a href="#">Rumah</a></li>
+              <li><a href="#service" onclick="activateTab(event, 'tab1')">Kontainer</a></li>
+              <li><a href="#service" onclick="activateTab(event, 'tab2')">Kapal</a></li>
+              <li><a href="#service" onclick="activateTab(event, 'tab3')">Komoditas</a></li>
+              <li><a href="#service" onclick="activateTab(event, 'tab4')">Lumbung</a></li>
+              <li><a href="#service" onclick="activateTab(event, 'tab5')">Rumah</a></li>
             </ul>
           </div>
-          <div class="footer-section">
+          <div class="footer-section display-none-550px">
             <h3>Kontak</h3>
             <ul>
-              <li><a href="#">Call</a></li>
-              <li><a href="#">Media Sosial</a></li>
+              <li><a href="https://wa.me/+6281270858355?text=Halo min, apakah saya bisa mendapat informasi lebih lanjut?">Whatsapp</a></li>
+              <li><a href="https://www.instagram.com/digdayams.id" target="_blank">Instagram</a></li>
             </ul>
           </div>
         </div>

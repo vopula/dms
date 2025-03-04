@@ -1,53 +1,1339 @@
-body {
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  scroll-behavior: smooth;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 1rem 2rem;
-  background-color: #333;
-  color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-size: 1.5rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  z-index: 1000;
+:root {
+  --semi-light-green-color: #558776;
+  --dark-green-color: #00291C;
+  --light-grey-color: #958e8e;
+  --light-human-skin-color: rgba(243, 234, 218, 0.9);
+  --white-text-color: white;
+  --black-text-color: black;
 }
 
-.navbar.transparent {
-  background-color: rgba(51, 51, 51, 0.5);
-}
-
-/* Scroll Snap Styling */
 body {
   height: 100vh;
-  overflow-y: scroll;
+  background-color: #f8f8f8;
+  overflow: hidden;
   scroll-snap-type: y mandatory;
 }
 
-.section {
+.scroll-container {
   height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.scroll-item {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  will-change: transform, opacity;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25em 1.25em;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .navbar a {
+    color: var(--black-text-color);
+    text-decoration: none;
+    padding: 0.7em 1.1em;
+    font-weight: bold;
+    border-radius: 0.5em;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  /* Active navbar item */
+  .navbar a.active {
+    background-color: rgba(169, 205, 194, 0.4);
+    color: var(--black-text-color);
+  }
+
+  .navbar.transparent {
+    background-color: var(--light-human-skin-color);
+  }
+
+  .logo img {
+    height: 3em;
+  }  
+
+ .menu {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu li a:hover {
+    color: var(--light-grey-color);
+  }
+
+  .menu-toggle {
+    display: none;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+  }
+  
+  .btn-konsultasi {
+    padding: 0.7em 1.1em;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.25em;
+    font-weight: bold;
+    background-color: rgba(51, 51, 51, 0);
+  }
+
+  .btn-konsultasi.transparent {
+    background-color: rgba(169, 205, 194, 0.9);
+  }
+  
+  .navbar .btn-konsultasi:hover {
+    background-color: var(--dark-green-color);
+    color: white;
+  }
+  
+  .page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    text-align: center;
+    background-color: var(--light-human-skin-color);
+  }
+  
+  /* .background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+  } */
+  
+  .content {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    color: black;
+    max-width: 30%;
+    text-align: center;
+  }
+  
+  .content h1 {
+    font-size: clamp(2.7rem, 3vw, 1rem);
+    margin-bottom: 0.8em;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards;
+  }
+  
+  .content p {
+    font-size: clamp(1.1rem, 1.2vw, 4rem);
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards;
+    animation-delay: 1s;
+  }
+  
+  .second-page {
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    padding: 2.4em 1.2em;
+    /* justify-content: flex-end; */
+    justify-content: center;
+    padding: 2.4em 1.2em;
+  }
+
+  .content2 {
+    text-align: center;
+    max-width: 30%;
+  }
+
+  .content2 h1 {
+    font-size: 2rem;
+    margin-bottom: 0.8em;
+    color: black;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out forwards 0.5s;
+  }
+  
+  .advantages-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 400px;
+    margin: auto;
+  }
+
+  .advantage-box {
+    background-color: var(--dark-green-color);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .advantage-box:hover {
+    transform: scale(1.05);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* @media (max-width: 1024px) {
+  } */
+  
+  .tabs-title {
+      text-align: center;
+      font-size: clamp(1.8rem, 2vw, 3rem); /* Ukuran font untuk judul */
+      font-weight: bold;
+      color: black; /* Warna hitam untuk teks */
+      margin-bottom: 0.3em;
+  }
+  
+  .tabs-description {
+    font-size: 18px; /* Ukuran font untuk deskripsi */
+    color: black; /* Warna hitam */
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+  
+  .tabs-section {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    color: white;
+    background-color: white;
+  }
+  
+  .tabs {
+    display: flex;
+    width: 100%;
+  }
+  
+  .tab-button {
+    font-size: clamp(1rem, 1.2vw, 3rem);
+    cursor: pointer;
+    width: 199px;
+    text-align: center;
+    background-color: white;
+    color: black;
+    padding: 0.6em;
+    border-radius: 12px 12px 0 0;
+    transition: .25s ease;
+    border: none;
+    flex-grow: 1;
+    position: relative;
+  }
+  
+  .tab-button:focus,
+  .tab-button:hover,
+  input[type="radio"]:checked + .tab-button {
+    background-color: var(--semi-light-green-color);
+    color: white;
+  }
+  
+  .tab-button:focus p,
+  input[type="radio"]:checked + .tab-button p {
+    display: block; /* Tampilkan penjelasan saat fokus atau tab aktif */
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+  
+  .tab-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .tab-content .tab-pane {
+    display: none;
+    background-color: var(--semi-light-green-color);
+    text-align: start;
+    height: calc(83vh - 60px);
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .tab-title {
+    font-size: 1.5em;
+  }
+  
+  .tab-explanation {
+    font-size: 1.2em;
+    margin-top: 20px;    
+  }
+  
+  #tab1:checked ~ .tab-content #content1 {
+    display: block;
+  }
+  
+  #tab2:checked ~ .tab-content #content2 {
+    display: block;
+  }
+  
+  #tab3:checked ~ .tab-content #content3 {
+    display: block;
+  }
+  
+  #tab4:checked ~ .tab-content #content4 {
+    display: block;
+  }
+  
+  #tab5:checked ~ .tab-content #content5 {
+    display: block;
+  }
+  
+  .tab-pane.active {
+    display: block; /* Show only the active tab pane */
+  }
+  
+  .grid-container-service {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr 0.3fr 1fr; /* 4 columns */
+    grid-template-rows: repeat(auto-fit, auto);   /* 5 rows */
+  }
+
+  .tab-section img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-height: 5em;
+    border-radius: 8px; /* Optional: Match the box's rounded corners */
+  }
+  
+  .tab-left-section {
+    background-color: transparent;
+    border-radius: 8px;
+    margin: 1.2em 5px 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .tab-left-section img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-height: 5em;
+    border-radius: 8px; /* Optional: Match the box's rounded corners */
+  }
+  
+  .tab-right-section {
+    margin: 1em 20px 0px 5px;
+    background-color: transparent;
+    padding: 0px 10px;
+    border-radius: 8px;
+    text-align: start;
+  }
+  
+  .tab-right-title {
+    margin: 0px;
+    padding: 5px 10px;
+    color: black;
+    font-size: clamp(0.85rem, 1vw, 3rem);
+    background-color: white; /* Set a background color for the box */
+    border-radius: 8px; /* Optional: Add rounded corners to the box */
+    font-weight: bold; /* Optional: Make the title bold */
+    display: inline-block;
+  }
+  
+  .tab-right-description {
+    margin-top: 0.8em;
+    margin-bottom: 0px;
+    text-align: justify;
+    font-size: clamp(0.75rem, 1vw, 3rem)
+  }
+  
+  .tab-bottom-section {
+    margin-bottom: 20px;
+  }  
+
+  .page-4 {
+    background-color: var(--dark-green-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
+  
+  .public-trust h1 {
+    font-size: 2.5em;
+    color: var(--white-text-color);
+    margin-bottom: 0.4em;
+  }
+  
+  .public-trust p {
+    font-size: 1.2em;
+    color: var(--white-text-color);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto 1em auto;
+  }
+
+  .navbar ul li a,
+  .menu-toggle,
+  .content h1,
+  .content p,
+  .content2 h1,
+  .content2 p,
+  .tabs-title,
+  .tab-button,
+  .tab-right-title,
+  .tab-right-description,
+  .public-trust h1,
+  .public-trust p,
+  .page-heading,
+  .page-paragraph,
+  .read-more-btn,
+  .announcement-label,
+  .article-label,
+  .article figure figcaption,
+  .article-category,
+  .article-description,
+  .article-button,
+  .article-info,
+  .left-section h2,
+  .left-section p,
+  .right-section h2,
+  .right-section p,
+  .contact-container label,
+  .contact-container input,
+  .contact-container button,
+  #custom-footer .logo-and-name,
+  #custom-footer h3,
+  #custom-footer ul li a,
+  #custom-footer p {
+    letter-spacing: 0.05em;
+  }
+  
+  .logo-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9em, 1fr));
+    grid-gap: 1em;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .logo-item {
+    background-color: var(--white-text-color);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .logo-item img {
+    display: block;
+    margin: auto auto;
+    height: 80%;
+    width: 60%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .page5-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--white-text-color);
+  }
+  
+  .box {
+    background-color: var(--white-text-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(30% - 20px); /* Flex-grow, shrink, and base size */
+    max-width: calc(30% - 20px); /* Control the max width */    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+    box-sizing: border-box;
+  }
+  
+  /* Announcement Box Styles */
+  .announcement {
+    width: 20%;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    margin: 10px;
+    padding: 10px 0px;
+    height: 58%;
+  }
+    
+  .pagination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  .pagination-header h1 {
+    font-size: 17px;
+    font-weight: bold;
+    color: var(--semi-light-green-color);
+  }
+  
+  /* .nav-button {
+    padding: 5px 8px;
+    border: none;
+    background-color: var(--semi-light-green-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+  }
+
+  .nav-button a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-button:hover {
+    background-color: var(--dark-green-color);
+  } */
+  
+  .page-heading {
+    font-size: clamp(1.3rem, 1.75vw, 5rem);
+    padding-bottom: min(2em, 8%);
+  }
+  
+  .page-paragraph {
+    font-size: clamp(0.9rem, 1.15vw, 5rem);
+    color: #333;
+    margin-bottom: 0.8em;
+  }
+  
+  .page-paragraph:last-of-type {
+    margin-bottom: 1.5em;
+  }
+  
+  /* Article Box Styles */
+  .article-container {
+    position: relative; 
+    display: inline-block;
+  }
+
+  .box.article {
+    display: flex;
+    flex: 1 1 calc(20% - 5px);  /* Menyesuaikan ukuran kotak agar lebih rapat */
+    position: relative;
+    z-index: 2;
+  }
+
+  .article-info {
+    margin-top: 0.8em;
+    padding: 0.5em;
+    background-color: var(--light-human-skin-color);
+    color: #555;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: clamp(0.75rem, 1vw, 4rem);
+  }
+  
+  .article-author,
+  .article-date {
+    font-weight: normal;
+    font-style: italic;
+  }
+  
+  .article figure figcaption, .article-category, .article-description, .article-button {
+    padding: 0 calc(5%);
+  }
+
+  .article-label {
+    background-color: #FF4500;
+    color: white;
+    padding: 0.25em 0.5em;
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 0.25em;
+    margin-bottom: 0.5em;
+    position: absolute; /* Position the label absolutely within the container */
+    top: 0.6em; /* Adjust the distance from the top */
+    left: 0.6em; /* Adjust the distance from the left */
+    z-index: 1; /* Ensure the label is above the image */
+  }
+  
+  .article-description {
+    color: #333;
+    font-size: clamp(0.8rem, 1vw, 5rem);
+    margin-bottom: 0.6em;
+  }
+  
+  .article figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5em 0.5em 0px 0px;
+    display: block;
+    object-fit: contain;
+  }
+  
+  .article figure figcaption {
+    font-size: clamp(1rem, 1.4vw, 5rem);
+    font-weight: bold;
+    margin-top: 0.8em;
+    color: #333;
+  }
+  
+  .article-category {
+    font-size: clamp(0.8rem, 1vw, 5rem);
+    color: #666;
+    margin-bottom: 1.3em;
+  }
+
+  .nav-text-section {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 0.7em;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px 0;
+    z-index: 1;
+}
+
+  .nav-text-section p {
+    font-size: clamp(0.9rem, 3vw, 4rem);
+    font-weight: bold;
+    color: #333;
+  }
+
+  .page5-container button, 
+  .article a,
+  .read-more-btn {
+    padding: min(0.2em, 3vw) min(0.7em, 3vw);
+    font-size: clamp(0.6rem, 1vw, 2rem); /* Ensures text scales with button */
+    background-color: var(--semi-light-green-color);
+    color: var(--white-text-color);
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 0.25em;
+    cursor: pointer;
+  }
+  
+  .article a {
+    margin: 0px calc(5%);
+    padding: 0.5em;
+    display: block;
+  }
+  
+  .page5-container button:hover,
+  .article a:hover {
+    background-color: var(--dark-green-color);
+  }
+  
+  .read-more-btn {
+    padding: 0.7em;
+    max-width: 50%;
+  }
+  
+/* Grid Container */
+.grid-container {
+  display: grid;
+  grid-template-rows: 1fr auto; /* Baris pertama untuk contact-container, baris kedua untuk footer */
+  background-color: var(--semi-light-green-color);
+}
+
+/* Contact Container */
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Membagi menjadi 2 kolom untuk left-section dan right-section */
+  gap: 1.25em;
+  padding: 1.25em;
+  max-width: 1200px;
+  margin: 0 auto; /* Pusatkan contact-container */
+  width: 100%;
+  align-items: center; /* Pastikan kedua section memiliki tinggi yang sama */
+}
+
+/* Left Section */
+.contact-container .left-section {
+  background-color: var(--white-text-color);
+  padding: 1.25em;
+  border-radius: 0.5em;
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
   text-align: center;
-  scroll-snap-align: start;
+  color: var(--black-text-color);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  min-height: fit-content;
+  overflow: hidden;
+  text-decoration: none; 
 }
 
-#section1 {
-  background-color: #f0f0f0;
+/* .contact-container .left-section-link {
+  text-decoration: none; 
+  color: inherit; 
+  width: 100%; 
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
+
+.contact-container .left-section:hover {
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
 }
 
-#section2 {
-  background-color: #d0d0d0;
+.contact-container .phone-sticker {
+  width: 5em;
+  margin-bottom: 0.2em;
 }
 
-#section3 {
-  background-color: #b0b0b0;
+.contact-container h2 {
+  font-size: 1.2em;
+  margin-bottom: 0.8em;
+}
+
+.contact-container .description {
+  font-size: 1em;
+  margin: 1em 0px; 
+  display: flex;
+  text-align: center;
+  width: 80%;
+}
+
+.contact-container .phone-number {
+  font-size: 1.1em;
+  color: #333;
+}
+
+/* Right Section */
+.contact-container .right-section {
+  background-color: var(--white-text-color);
+  padding: 1em;
+  border-radius: 0.5em;
+  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+  min-height: fit-content;
+}
+
+form#whatsappForm label,
+form#whatsappForm input,
+form#whatsappForm select,
+form#whatsappForm button {
+  display: block; /* Ensures each element is on a new line */
+  margin-bottom: min(1em, 10%); /* Adds space between the rows */
+}
+
+.contact-container .form-header {
+  background-color: var(--semi-light-green-color);
+  padding: 1em;
+  border-radius: 0.5em 0.5em 0 0;
+  color: var(--white-text-color);
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.contact-container .form-header h2 {
+  margin: 0;
+  font-size: clamp(1.3rem, 1.7vw, 2rem);
+  font-weight: bold;
+}
+
+.contact-container .form-header p {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.contact-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-container label {
+  font-size: 1em;
+}
+
+.contact-container input,
+.contact-container select {
+  padding: 0.6em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+}
+
+.contact-container button {
+  padding: 0.6em;
+  background-color: var(--semi-light-green-color);
+  color: white;
+  border: none;
+  border-radius: 0.25em;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.contact-container button:hover {
+  background-color: var(--dark-green-color);
+}
+
+/* Footer */
+#custom-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em; /* Padding diatur ulang */
+  background-color: #F3EADA;
+  color: black;
+  align-items: stretch;
+  min-height: 100px; /* Tinggi footer disesuaikan */
+  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+  width: 100%; /* Footer mengambil lebar penuh */
+  position: relative; /* Pastikan footer tidak tumpang tindih */
+  z-index: 10; /* Footer selalu di atas elemen lain */
+}
+
+#custom-footer .footer-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0;
+  padding-left: 1.25em; /* Padding kiri disesuaikan */
+}
+
+#custom-footer .footer-logo {
+  width: 2.5em; /* Ukuran logo disesuaikan */
+  margin-bottom: 0.6em; /* Margin bawah logo disesuaikan */
+  margin-top: 0.6em; /* Margin atas logo disesuaikan */
+}
+
+#custom-footer .logo-and-name {
+  display: flex; /* Use Flexbox for logo and company name */
+  align-items: center; /* Vertically center the logo and company name */
+  gap: 0.6em; /* Add space between the logo and company name */
+  padding-bottom: 0.6em;
+  font-weight: bold;
+  color: black;
+}
+
+#custom-footer .footer-group {
+  display: flex;
+  gap: 4.5em; /* Jarak antar bagian disesuaikan */
+  padding-right: 1.25em; /* Padding kanan disesuaikan */
+  align-items: flex-start;
+}
+
+#custom-footer p {
+  color: rgb(88, 88, 88);
+}
+
+#custom-footer a,
+#custom-footer ul li a {
+  color: rgb(88, 88, 88);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 0.9em;
+}
+
+#custom-footer a:hover {
+  color: var(--light-grey-color);
+}
+
+#custom-footer h3 {
+  margin-bottom: 0.25em; /* Margin bawah heading disesuaikan */
+  color: black;
+}
+
+#custom-footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+#custom-footer ul li {
+  margin-bottom: 0.15em; /* Margin bawah list item disesuaikan */
+}
+
+#custom-footer ul li a:hover {
+  color: var(--light-grey-color);
+}
+
+@media (max-width: 838px) {
+  .menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: var(--light-human-skin-color);
+    padding: 10px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu li {
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  .menu li a {
+    color: black;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu.open {
+    display: flex;
+  }
+
+  .navbar .logo img {
+    height: 2.4em;
+  } 
+
+  .btn-konsultasi {
+    padding: 0.5em 1.4em; 
+    font-size: 1.1rem;
+  }
+
+  .content, .content2 {
+    position: static;
+    margin: 0em auto 5em auto;
+    padding: 10;
+    max-width: 80%; 
+    text-align: center;
+  }
+
+  .second-page .content2 {
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    margin: 0px;
+    padding: 10px;
+  }
+  
+  .text-content {
+    text-align: center;
+    font-size: 0.8em;
+  }
+
+  .advantages-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .public-trust h1 {
+    font-size: 2em;
+    padding-top: 0.9em;
+  }
+
+  .public-trust p {
+    font-size: 1em;
+    padding: 0em 3em;
+  }
+
+  .logo-sections {
+    grid-template-columns: repeat(3, 1fr); 
+    max-width: 500px;
+  }
+
+  .logo-item {
+    padding: 8px;
+  }
+
+  .logo-img {
+    width: 70%; 
+  }
+
+  .tab-right-description {
+    line-height: 1.2em;
+    font-size: clamp(0.7rem, 1.2vw, 3rem);
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+  .tab-left-section img {
+    max-height: 4em;
+  }
+  .tab-content .tab-pane {
+    height: calc(85vh - 45px);
+  }  
+  .tab-button {
+    font-size: clamp(0.9rem, 1.2vw, 3rem);
+    padding-bottom: 0.5em;
+  }
+
+  .page5-container {
+    display: flex;
+    justify-content: center;
+    max-height: 90%;
+  }
+
+  .announcement {
+    max-width: 40%;
+    height: 70%;
+  }
+
+  .article {
+    max-width: 40%;
+  }
+
+  .box.article:not(:nth-child(3)) {
+    display: none;
+  }
+
+  /* .page-heading {
+    padding-bottom: min(2em, 12%);
+  } */
+
+  /* Pembatas */
+
+  .contact-container .left-section h2 {
+    font-size: clamp(1.2rem, 2.7vw, 5rem);
+  }
+
+  .contact-container .description {
+    margin: min(2vh, 8%) 0em;
+    font-size: clamp(0.9rem, 1.8vw, 5rem);
+  }
+
+  .contact-container .phone-sticker {
+    margin: min(1vh, 8%) 0em;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
+  .contact-container .form-header {
+    margin: auto 0;
+    padding: 0.8em;
+    margin-bottom: 0.6em;
+  }
+
+  #custom-footer .footer-group {
+    gap: 1em; 
+  }
+
+  #custom-footer h3 {
+    font-size: 1em;
+  }
+
+  #custom-footer .footer-section .logo-and-name p {
+    font-size: 1rem;
+  }
+
+  #custom-footer .footer-section p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 550px) {
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: var(--light-human-skin-color);
+    padding: 10px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu li {
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  .menu li a {
+    color: black;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu.open {
+    display: flex;
+  }
+
+  .menu .btn-konsultasi {
+    margin-left: 0; 
+    width: 100%; 
+    text-align: center; 
+    padding: 10px 20px; 
+  }
+
+  .page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content, .content2 {
+    position: static;
+    padding: 10px;
+    margin: 0em auto 5em auto;
+    max-width: 90%; 
+    text-align: center;
+  }
+
+  .content h1 {
+    font-size: 2.1em; 
+  }
+
+  .content2 h1 {
+    font-size: 1.8rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+  }
+
+  .content2 p {
+    font-size: 1rem;
+  }
+
+  .second-page .content2 {
+    padding: 10px;
+  }
+  
+  .text-content {
+    font-size: 0.7em;
+  }
+
+  .advantages-container {
+    gap: 10px; 
+  }
+
+  .public-trust h1 {
+    font-size: 1.8em;
+    padding: 0.7em 1em 0.5em 1em;
+  }
+
+  .public-trust p {
+    font-size: 1em;
+    padding: 0em 1.5em;
+    margin-bottom: min(1.4em, 8%);
+  }
+
+  .logo-sections {
+    grid-template-columns: repeat(3, 1fr); 
+    width: calc(85%);
+    padding: 0 1em 1em 1em;
+  }
+
+  .logo-item {
+    padding: 5px;
+  }
+
+  .logo-img {
+    width: 80%; 
+  }
+
+  .grid-container-service {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr; /* 4 columns */
+    grid-template-rows: repeat(auto-fit, auto);   /* 5 rows */
+  }
+  .tabs-header {
+    margin: 0.5em;
+  }
+  .tabs-title {
+    font-size: clamp(1.3rem, 1vw, 3rem);      
+  }
+  .tab-button {
+    font-size: clamp(0.74rem, 1.2vw, 3rem);
+    padding-bottom: 0.5em;
+  }
+  .tab-right-title {
+    font-size: clamp(0.7rem, 1.2vw, 3rem);
+  }
+  .tab-right-description {
+    line-height: 1.2em;
+    font-size: clamp(0.7rem, 1.2vw, 3rem);
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tab-left-section img {
+    max-height: 4em;
+  }
+  .tab-content .tab-pane {
+    height: calc(85vh - 45px);
+  }  
+
+  .page5-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin: 0;
+    flex-wrap: nowrap;
+  }
+
+  .announcement {
+    display: none; 
+  }
+
+  .box.article {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    z-index: 2;
+    max-height: fit-content;
+  }
+
+  .article figure figcaption {
+    font-size: clamp(1.1rem, 3.8vw, 4rem);
+  }
+  
+  .article-description,
+  .article-category {
+    font-size: clamp(0.85rem, 2.8vw, 5rem);;
+  }
+
+  .info-section,
+  .article a {
+    font-size: clamp(0.75rem, 2.5vw, 4rem);
+  }
+  
+  .pagination-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.9em;
+    margin: 20em;
+  }
+
+  .pagination-buttons button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+
+  .nav-text-section {
+    display: flex;
+    min-width: 80%;
+  }
+
+  .nav-text {
+    font-size: clamp(0.9rem, 3vw, 4rem);
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .nav-button {
+    padding: min(0.3em, 3vw) min(1em, 3vw);
+    font-size: clamp(0.8rem, 2vw, 4rem);
+    background-color: var(--semi-light-green-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  /* pembatas */
+
+  .contact-container .left-section {
+    width: 90%; 
+    max-width: 500px;
+    height: auto;
+    max-height: 100%;
+    margin: 0 auto;
+    padding: 1em; 
+    box-sizing: border-box; 
+    word-wrap: break-word; 
+  }  
+
+  .contact-container {
+    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact-container .right-section {
+    display: none;
+  }
+
+  .contact-container .phone-sticker {
+    margin: min(1vh, 8%) 0em;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+
+  .contact-container .left-section h2 {
+    font-size: clamp(1.3rem, 5.2vw, 2rem);
+  }
+
+  .contact-container .description {
+    margin: min(2vh, 8%) 0em;
+    font-size: clamp(0.9rem, 3vw, 2rem);
+  }
+
+  .contact-container .phone-number {
+    font-size: 14px;
+  }
+
+  #custom-footer .display-none-550px {
+    display: none;
+  }
+
+  #custom-footer .footer-logo {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  
+  #custom-footer p {
+    font-size: clamp(0.9rem, 3vw, 2rem);
+  }
+
+  #custom-footer h3 {
+    font-size: clamp(0.9rem, 3vw, 2rem);
+  }
+
+  #custom-footer ul li a {
+    font-size: clamp(0.8rem, 3vw, 2rem);
+   }
 }
